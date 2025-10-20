@@ -19,7 +19,7 @@ user guide.
 
 - Build static HTML files from Markdown files.
 - Use Plugins and Markdown Extensions to enhance MkDocs.
-- Use the build-in themes, third party themes or create your own.
+- Use the built-in themes, third party themes or create your own.
 - Publish your documentation anywhere that static files can be served.
 - Much more!
 
@@ -27,17 +27,24 @@ user guide.
 
 If you need help with MkDocs, do not hesitate to get in contact with us!
 
-You can either open a [Discussion] to ask questions or create an [Issue] to
-report a bug or make a feature request. Please note that we may only provide
+-   For questions and high-level discussions, use **[Discussions]** on GitHub.
+    -   For small questions, a good alternative is the **[Chat room]** on
+        Gitter/Matrix.
+-   To report a bug or make a feature request, open an **[Issue]** on GitHub.
+
+Please note that we may only provide
 support for problems/questions regarding core features of MkDocs. Any
 questions or bug reports about features of third-party themes, plugins,
-extensions or similar should be made to their respective projects.
+extensions or similar should be made to their respective projects.  
+But, such questions are *not* banned from the [chat room].
+
+Make sure to stick around to answer some questions as well!
 
 ## Links
 
 - [Official Documentation][mkdocs]
 - [Latest Release Notes][release-notes]
-- [MkDocs Wiki][wiki] (Third-party themes, recipes, plugins and more)
+- [Catalog of third-party plugins, themes and recipes][catalog]
 
 ## Contributing to MkDocs
 
@@ -55,16 +62,17 @@ discussion forums is expected to follow the [PyPA Code of Conduct].
 [codecov-link]: https://codecov.io/github/mkdocs/mkdocs?branch=master
 [pypi-v-image]: https://img.shields.io/pypi/v/mkdocs.svg
 [pypi-v-link]: https://pypi.org/project/mkdocs/
-[GHAction-image]: https://github.com/mkdocs/mkdocs/workflows/CI/badge.svg?branch=master&event=push
-[GHAction-link]: https://github.com/mkdocs/mkdocs/actions?query=event%3Apush+branch%3Amaster
+[GHAction-image]: https://github.com/mkdocs/mkdocs/actions/workflows/ci.yml/badge.svg
+[GHAction-link]: https://github.com/mkdocs/mkdocs/actions/workflows/ci.yml
 <!-- Links -->
 [mkdocs]: https://www.mkdocs.org
 [Issue]: https://github.com/mkdocs/mkdocs/issues
-[Discussion]: https://github.com/mkdocs/mkdocs/discussions
+[Discussions]: https://github.com/mkdocs/mkdocs/discussions
+[Chat room]: https://gitter.im/mkdocs/community
 [release-notes]: https://www.mkdocs.org/about/release-notes/
-[wiki]: https://github.com/mkdocs/mkdocs/wiki
 [Contributing Guide]: https://www.mkdocs.org/about/contributing/
 [PyPA Code of Conduct]: https://www.pypa.io/en/latest/code-of-conduct/
+[catalog]: https://github.com/mkdocs/catalog
 
 ## License
 

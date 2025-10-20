@@ -8,8 +8,8 @@ A basic guide to deploying your docs to various hosting providers
 
 If you host the source code for a project on [GitHub], you can easily use
 [GitHub Pages] to host the documentation for your project. There are two basic
-types of GitHub Pages sites: [Project Pages] sites, and [User and Organization
-Pages] sites. They are nearly identical but have some important differences,
+[types of GitHub Pages sites]: Project Pages sites, and User and Organization
+Pages sites. They are nearly identical but have some important differences,
 which require a different work flow when deploying.
 
 ### Project Pages
@@ -35,11 +35,14 @@ to GitHub. Therefore, you may want to verify any changes you make to the docs
 beforehand by using the `build` or `serve` commands and reviewing the built
 files locally.
 
-!!! warning
+WARNING:
+You should never edit files in your pages repository by hand if you're using
+the `gh-deploy` command because you will lose your work the next time you
+run the command.
 
-    You should never edit files in your pages repository by hand if you're using
-    the `gh-deploy` command because you will lose your work the next time you
-    run the command.
+WARNING:
+If there are untracked files or uncommitted work in the local repository where
+`mkdocs gh-deploy` is run, these will be included in the pages that are deployed.
 
 ### Organization and User Pages
 
@@ -49,7 +52,7 @@ with the GitHub account name. Therefore, you need working copies of two
 repositories on our local system. For example, consider the following file
 structure:
 
-```no-highlight
+```text
 my-project/
     mkdocs.yml
     docs/
@@ -72,17 +75,6 @@ with the [remote_branch] configuration setting, but if you forget to change
 directories before running the deploy script, it will commit to the `master`
 branch of your project, which you probably don't want.
 
-Be aware that you will not be able to review the built site before it is pushed
-to GitHub. Therefore, you may want to verify any changes you make to the docs
-beforehand by using the `build` or `serve` commands and reviewing the built
-files locally.
-
-!!! warning
-
-    You should never edit files in your pages repository by hand if you're using
-    the `gh-deploy` command because you will lose your work the next time you
-    run the command.
-
 ### Custom Domains
 
 GitHub Pages includes support for using a [Custom Domain] for your site. In
@@ -103,8 +95,7 @@ documentation on [Troubleshooting custom domains].
 
 [GitHub]: https://github.com/
 [GitHub Pages]: https://pages.github.com/
-[Project Pages]: https://help.github.com/articles/user-organization-and-project-pages/#project-pages-sites
-[User and Organization Pages]: https://help.github.com/articles/user-organization-and-project-pages/#user-and-organization-pages-sites
+[types of GitHub Pages sites]: https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites
 [ghp-import]: https://github.com/davisp/ghp-import
 [remote_branch]: ./configuration.md#remote_branch
 [Custom Domain]: https://help.github.com/articles/adding-or-removing-a-custom-domain-for-your-github-pages-site
@@ -115,24 +106,14 @@ documentation on [Troubleshooting custom domains].
 ## Read the Docs
 
 [Read the Docs][rtd] offers free documentation hosting. You can import your docs
-using any major version control system, including Mercurial, Git, Subversion,
-and Bazaar. Read the Docs supports MkDocs out-of-the-box. Follow the
-[instructions] on their site to arrange the files in your repository properly,
+using the Git version control system. Read the Docs supports MkDocs out-of-the-box.
+Follow the [instructions] on their site to arrange the files in your repository properly,
 create an account and point it at your publicly hosted repository. If properly
 configured, your documentation will update each time you push commits to your
 public repository.
 
-!!! note
-
-    To benefit from all of the [features] offered by Read the Docs, you will need
-    to use the [Read the Docs theme][theme] which ships with MkDocs. The various
-    themes which may be referenced in Read the Docs' documentation are Sphinx
-    specific themes and will not work with MkDocs.
-
 [rtd]: https://readthedocs.org/
 [instructions]: https://docs.readthedocs.io/en/stable/intro/getting-started-with-mkdocs.html
-[features]: https://docs.readthedocs.io/en/latest/features.html
-[theme]: ./choosing-your-theme.md#readthedocs
 
 ## Other Providers
 
@@ -169,6 +150,64 @@ your hosts' file system.
 See your host's documentation for specifics. You will likely want to search
 their documentation for "ftp" or "uploading site".
 
+## Local Files
+
+Rather than hosting your documentation on a server, you may instead distribute
+the files directly, which can then be viewed in a browser using the `file://`
+scheme.
+
+Note that, due to the security settings of all modern browsers, some things
+will not work the same and some features may not work at all. In fact, a few
+settings will need to be customized in very specific ways.
+
+-   [site_url]:
+
+    The `site_url` must be set to an empty string, which instructs MkDocs to
+    build your site so that it will work with the `file://` scheme.
+
+    ```yaml
+    site_url: ""
+    ```
+
+-   [use_directory_urls]:
+
+    Set `use_directory_urls` to `false`. Otherwise, internal links between
+    pages will not work properly.
+
+    ```yaml
+    use_directory_urls: false
+    ```
+
+-   [search]:
+
+    You will need to either disable the search plugin, or use a third-party
+    search plugin which is specifically designed to work with the `file://`
+    scheme. To disable all plugins, set the `plugins` setting to an empty list.
+
+    ```yaml
+    plugins: []
+    ```
+
+    If you have other plugins enabled, simply ensure that `search` is not
+    included in the list.
+
+When writing your documentation, it is imperative that all internal links use
+relative URLs as [documented][internal links]. Remember, each reader of your
+documentation will be using a different device and the files will likely be in a
+different location on that device.
+
+If you expect your documentation to be viewed off-line, you may also need to be
+careful about which themes you choose. Many themes make use of CDNs for various
+support files, which require a live Internet connection. You will need to choose
+a theme which includes all support files directly in the theme.
+
+When you build your site (using the `mkdocs build` command), all of the files
+are written to the directory assigned to the [site_dir] configuration option
+(defaults to `"site"`) in your `mkdocs.yaml` config file. Generally, you will
+simply need to copy the contents of that directory and distribute it to your
+readers. Alternatively, you may choose to use a third party tool to convert the
+HTML files to some other documentation format.
+
 ## 404 Pages
 
 When MkDocs builds the documentation it will include a 404.html file in the
@@ -178,3 +217,7 @@ servers may be configured to use it but the feature won't always be available.
 See the documentation for your server of choice for more information.
 
 [site_dir]: ./configuration.md#site_dir
+[site_url]: ./configuration.md#site_url
+[use_directory_urls]: ./configuration.md#use_directory_urls
+[search]: ./configuration.md#search
+[internal links]: ./writing-your-docs.md#internal-links
